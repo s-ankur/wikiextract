@@ -1,6 +1,6 @@
 # wikiextract
 
-This package is used to create an artificial dataset of Hindi Errors. It depends on the wikiextractor package from here: https://github.com/attardi/wikiextractor
+This package is used to create an artificial dataset of Hindi Errors. It depends on the wikiextractor package from here: https://github.com/attardi/wikiextractor.
 It does the following:
 
 1. Downloads a "current" hindi wikipedia dump
