@@ -1,0 +1,69 @@
+diff -urN hindi-pos-tagger-3.0/bin/lemmatiser.py hindi-pos-tagger-3.03/bin/lemmatiser.py
+--- hindi-pos-tagger-3.0/bin/lemmatiser.py	2014-06-30 20:18:59.000000000 +0530
++++ hindi-pos-tagger-3.03/bin/lemmatiser.py	2020-05-31 08:37:00.000000000 +0530
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2
+ '''
+ Usage: python lemmatiser.pl lemmaFile < input > output
+ 
+diff -urN hindi-pos-tagger-3.0/bin/normalize_bojar_lrec_2010.py hindi-pos-tagger-3.03/bin/normalize_bojar_lrec_2010.py
+--- hindi-pos-tagger-3.0/bin/normalize_bojar_lrec_2010.py	2014-06-30 20:18:59.000000000 +0530
++++ hindi-pos-tagger-3.03/bin/normalize_bojar_lrec_2010.py	2020-05-31 08:37:06.000000000 +0530
+@@ -1,3 +1,4 @@
++#!/usr/bin/env python2
+ # -*- coding: utf-8 -*-
+ import sys
+ 
+Binary files hindi-pos-tagger-3.0/bin/normalize_bojar_lrec_2010.pyc and hindi-pos-tagger-3.03/bin/normalize_bojar_lrec_2010.pyc differ
+diff -urN hindi-pos-tagger-3.0/bin/normalize_vert.py hindi-pos-tagger-3.03/bin/normalize_vert.py
+--- hindi-pos-tagger-3.0/bin/normalize_vert.py	2014-06-30 20:18:59.000000000 +0530
++++ hindi-pos-tagger-3.03/bin/normalize_vert.py	2020-05-31 08:36:50.000000000 +0530
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2
+ # -*- coding: utf-8 -*-
+ 
+ import sys
+diff -urN hindi-pos-tagger-3.0/bin/tag2vert.py hindi-pos-tagger-3.03/bin/tag2vert.py
+--- hindi-pos-tagger-3.0/bin/tag2vert.py	2014-06-30 20:18:59.000000000 +0530
++++ hindi-pos-tagger-3.03/bin/tag2vert.py	2020-05-31 08:37:16.000000000 +0530
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2
+ 
+ '''
+ This file takes Reddy and Sharoff, 2011 tagger's output and split the tags into vert columns 
+diff -urN hindi-pos-tagger-3.0/bin/unitok.py hindi-pos-tagger-3.03/bin/unitok.py
+--- hindi-pos-tagger-3.0/bin/unitok.py	2014-06-30 20:18:59.000000000 +0530
++++ hindi-pos-tagger-3.03/bin/unitok.py	2020-05-31 08:37:20.000000000 +0530
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2
+ # coding=utf-8
+ """
+ # Downloaded from https://www.sketchengine.co.uk/documentation/attachment/wiki/Website/LanguageResourcesAndTools/unitok.py
+diff -urN hindi-pos-tagger-3.0/Makefile hindi-pos-tagger-3.03/Makefile
+--- hindi-pos-tagger-3.0/Makefile	2014-06-30 20:18:59.000000000 +0530
++++ hindi-pos-tagger-3.03/Makefile	2020-07-01 15:13:20.941900979 +0530
+@@ -1,12 +1,13 @@
+ TAGGER=./bin/tnt -v0 -H models/hindi  # Use option -u1 for speed at a slight cost of precision. For more options use ./bin/tnt -h
+-LEMMATIZER=./bin/lemmatiser.py models/hindi.lemma
+-TAG2VERT=./bin/tag2vert.py
+-NORMALIZE=./bin/normalize_vert.py
+-POSMOD=./bin/modify_pos.py
+-TOKENIZER=./bin/unitok.py -l hindi -n
++LEMMATIZER=python2 ./bin/lemmatiser.py models/hindi.lemma
++TAG2VERT=python2 bin/tag2vert.py
++NORMALIZE=python2 bin/normalize_vert.py
++POSMOD=python2 bin/modify_pos.py
++TOKENIZER=python2 bin/unitok.py -l hindi -n
+ 
+-tag: 
+-	cat hindi.input.txt | $(TOKENIZER) | sed -e 's/।/./g' | sed -e 's/^\.$$/.\n<\/s>\n<s>/g' |  $(NORMALIZE)  > hindi.tmp.words
++tag:
++	chmod +x bin/*
++	cat hindi.input.txt | $(TOKENIZER) | sed -e 's/^\.$$/.\n<\/s>\n<s>/g' |  $(NORMALIZE)  > hindi.tmp.words
+ 	$(TAGGER) hindi.tmp.words | sed -e 's/\t\+/\t/g' | $(LEMMATIZER) | $(TAG2VERT) > hindi.output
+ 	rm hindi.tmp.words
+ 	echo "Output stored in hindi.output"
